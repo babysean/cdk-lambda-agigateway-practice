@@ -8,27 +8,32 @@ interface informationInput {
     isConsentPersonalInformation: boolean
 }
 
-export const handler = async (event: APIGatewayEvent, context: Context, callback: Callback): Promise<APIGatewayProxyResult> => {
+export const handler = async (event: APIGatewayEvent, context: Context, callback: Callback) => {
 
-    const body = event
+    let body = event
 
-    if(!body)
-        return {
+    // API Gateway의 호출일 때, event.body에 파라미터 존재
+    if(event.body)
+        body = JSON.parse(event.body)
+
+    if(!body && event.body)
+        callback(null, {
             statusCode: 500,
+            isBase64Encoded: false,
             headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Content-Type": "application/json"
             },
             body: 'invalid request'
-        }
-
-    const { name, email, phoneNumber, isConsentPersonalInformation } = JSON.parse(JSON.stringify(body)) as informationInput
+        })
 
     const dynamo = new DynamoDB.DocumentClient();
 
+    const { name, email, phoneNumber, isConsentPersonalInformation } = JSON.parse(JSON.stringify(body)) as informationInput
+
     try {
         // data insert
-        await dynamo.put({
+        const item = await dynamo.put({
             TableName: "user",
             Item: {
                 name: name,
@@ -38,24 +43,24 @@ export const handler = async (event: APIGatewayEvent, context: Context, callback
             }
         }).promise()
 
-        return {
+        callback(null, {
             statusCode: 200,
+            isBase64Encoded: false,
             headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Content-Type": "application/json"
             },
-            body: "User information insert complete"
-        }
-
+            body: JSON.stringify(item)
+        })
     } catch (err) {
-        return {
+        callback(null, {
             statusCode: 500,
             isBase64Encoded: false,
             headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Content-Type": "application/json"
             },
-            body: err
-        }
+            body: JSON.stringify(err)
+        })
     }
 }
