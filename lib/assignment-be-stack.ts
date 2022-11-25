@@ -32,5 +32,31 @@ export class AssignmentBeStack extends cdk.Stack {
       runtime: lambda.Runtime.NODEJS_16_X
     })
 
+    // 사용자 정보 insert
+    const insertPersonalInformation = new NodejsFunction(this, 'insertPersonalInformation', {
+      functionName: "insertPersonalInformation",
+      entry: path.resolve(__dirname, code_path, 'insert.ts'),
+      handler: 'handler',
+      runtime: lambda.Runtime.NODEJS_16_X,
+      environment: {
+        DYNAMODB_TABLE_NAME: dynamoDB.tableName
+      }
+    })
+
+    // 사용자 정보 select (한 명)
+    const selectPersonalInformation = new NodejsFunction(this, 'selectPersonalInformation', {
+      functionName: "selectPersonalInformation",
+      entry: path.resolve(__dirname, code_path, 'select.ts'),
+      handler: 'handler',
+      runtime: lambda.Runtime.NODEJS_16_X,
+      environment: {
+        DYNAMODB_TABLE_NAME: dynamoDB.tableName
+      }
+    })
+
+    // 각 Lambda에 DynamoDB read, write 권한 추가
+    dynamoDB.grantWriteData(insertPersonalInformation);
+    dynamoDB.grantReadData(selectPersonalInformation);
+
   }
 }
