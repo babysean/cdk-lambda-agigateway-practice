@@ -1,4 +1,4 @@
-import {APIGatewayEvent, APIGatewayProxyResult, Callback, Context} from "aws-lambda";
+import { APIGatewayEvent, APIGatewayProxyResult, Callback, Context } from "aws-lambda";
 import { DynamoDB } from 'aws-sdk'
 
 interface informationInput {
@@ -11,6 +11,7 @@ interface informationInput {
 export const handler = async (event: APIGatewayEvent, context: Context, callback: Callback): Promise<APIGatewayProxyResult> => {
 
     const body = event
+
     if(!body)
         return {
             statusCode: 500,
@@ -26,6 +27,7 @@ export const handler = async (event: APIGatewayEvent, context: Context, callback
     const dynamo = new DynamoDB.DocumentClient();
 
     try {
+        // data insert
         await dynamo.put({
             TableName: "user",
             Item: {

@@ -1,19 +1,18 @@
-import * as cdk from 'aws-cdk-lib';
+import { Stack, StackProps, CfnOutput } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import {NodejsFunction} from "aws-cdk-lib/aws-lambda-nodejs";
+import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import * as path from "path";
 import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway'
 
-export class AssignmentBeStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+export class AssignmentBeStack extends Stack {
+  constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
     /**
      * DynamoDB
      * */
-
     // DynamoDB Table 생성
     const dynamoDB = new dynamodb.Table(this, 'assignment-dynamodb', {
       tableName: 'user',
@@ -26,6 +25,7 @@ export class AssignmentBeStack extends cdk.Stack {
      * */
     const code_path = "../lambda"
 
+    // 테스트용
     const helloLambda = new NodejsFunction(this, 'helloLambda', {
       functionName: "hello-lambda-function",
       entry: path.resolve(__dirname, code_path, 'hello.ts'),
@@ -83,5 +83,6 @@ export class AssignmentBeStack extends cdk.Stack {
     const insertUserInformation = assignmentApi.addResource("registration")
     insertUserInformation.addMethod('POST', new apigateway.LambdaIntegration(insertPersonalInformation))
 
+    new CfnOutput(this, 'apiUrl', {value: api.url});
   }
 }
