@@ -4,6 +4,7 @@ import {NodejsFunction} from "aws-cdk-lib/aws-lambda-nodejs";
 import * as path from "path";
 import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
+import * as apigateway from 'aws-cdk-lib/aws-apigateway'
 
 export class AssignmentBeStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -57,6 +58,30 @@ export class AssignmentBeStack extends cdk.Stack {
     // 각 Lambda에 DynamoDB read, write 권한 추가
     dynamoDB.grantWriteData(insertPersonalInformation);
     dynamoDB.grantReadData(selectPersonalInformation);
+
+    /**
+     * API Gateway
+     * */
+    const api = new apigateway.RestApi(this, 'assignment-api', {
+      restApiName: "Assignment-API-Service",
+      description: "Assignment api service",
+      deployOptions: {
+        stageName: 'v1'
+      }
+    });
+
+    // Define and Create AWS API Gateway
+    const assignmentApi = api.root.addResource("users")
+
+    const testFunction = assignmentApi.addResource("test")
+    testFunction.addMethod('POST', new apigateway.LambdaIntegration(helloLambda))
+
+    const manageUserInformation = assignmentApi.addResource("{email}")
+
+    manageUserInformation.addMethod('GET', new apigateway.LambdaIntegration(selectPersonalInformation))
+
+    const insertUserInformation = assignmentApi.addResource("registration")
+    insertUserInformation.addMethod('POST', new apigateway.LambdaIntegration(insertPersonalInformation))
 
   }
 }
