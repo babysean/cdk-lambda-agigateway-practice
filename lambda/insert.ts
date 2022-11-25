@@ -50,7 +50,7 @@ export const handler = async (event: APIGatewayEvent, context: Context, callback
                 "Access-Control-Allow-Origin": "*",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(item)
+            body: "Insert complete"
         })
     } catch (err) {
         callback(null, {
