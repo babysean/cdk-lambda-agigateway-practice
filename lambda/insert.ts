@@ -36,7 +36,7 @@ export const handler = async (event: APIGatewayEvent, context: Context, callback
                 phoneNumber: phoneNumber,
                 isConsentPersonalInformation: isConsentPersonalInformation
             }
-        })
+        }).promise()
 
         return {
             statusCode: 200,
