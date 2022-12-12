@@ -7,15 +7,16 @@
 
 ## 프로젝트 개요
 
-포커스미디어코리아는 미국 및 전세계의 4 억명이 시청하는 Super Bowl 경기와 공동으로 마케팅을 진행하기로 했습니다. 이에 동접자가 수천만명에 달할 것으로 예상되는 마케팅 이벤트 페이지를 통해 전달되는 고객 정보를 수집할 백엔드 서비스를 구현해야 합니다. 이 이벤트 페이지는 아래의 정보를 수집해 전달합니다.
+미국 및 전세계의 4 억명이 시청하는 Super Bowl 경기와 공동으로 마케팅을 진행하기로 했습니다.   
+이에 동접자가 수천만명에 달할 것으로 예상되는 마케팅 이벤트 페이지를 통해 전달되는 고객 정보를 수집할 백엔드 서비스를 구현해야 합니다. 이 이벤트 페이지는 아래의 정보를 수집해 전달합니다.
 - 이름
 - 이메일
-- 국가코드 + 전화번호
+- 전화번호
 - 개인정보 수집 동의 여부
 
 ## 선행 작업
 1. [nodeJS 설치](https://nodejs.org/en/download/)하기
-2. [Github Repository](https://github.com/SangHoonPark1/assignment-be.git) clone
+2. [Github Repository](https://github.com/babysean/cdk-lambda-agigateway-practice.git) clone
 3. CDK 설치하기   
    `npm install -g aws-cdk`
 4. [Docker 설치](https://docs.docker.com/get-docker/)하기
@@ -60,7 +61,7 @@ curl -i -X POST -d '{parameters}' 'https://{restapi_id}.execute-api.{region}.ama
 curl -i -X POST \
    -d \
 '{
-  "email": "parksh1@focusmediakorea.com",
+  "email": "test@email.com",
   "name": "sanghoon",
   "phoneNumber": "010-1111-1111",
   "isConsentPersonalInformation": true
@@ -108,6 +109,6 @@ via: 1.1 98cc70c99d4e07b8cd37265dc48c5a54.cloudfront.net (CloudFront)
 x-amz-cf-pop: ICN57-P2
 x-amz-cf-id: 779MZIOxtkLVJuSQsFeXRvsKt_i7UchEAkuL2dcEQz5BB5AsaLbPkw==
 
-{"phoneNumber":"010-1111-1111","isConsentPersonalInformation":true,"email":"parksh1@focusmediakorea.com","name":"sanghoon"}
+{"phoneNumber":"010-1111-1111","isConsentPersonalInformation":true,"email":"test@email.com","name":"sanghoon"}
 ```
 
