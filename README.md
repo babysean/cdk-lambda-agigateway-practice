@@ -20,7 +20,7 @@
 3. CDK 설치하기   
    `npm install -g aws-cdk`
 4. [Docker 설치](https://docs.docker.com/get-docker/)하기
-5. [AWS CLI 연동](https://www.notion.so/focusmediakorea/00-04801f826cd0472fae21ddc3ae09dd69)하기
+5. AWS CLI 설치 및 연동하기
 
 #### 설치한 npm modules
 1. `npm install -D @types/aws-lambda`
