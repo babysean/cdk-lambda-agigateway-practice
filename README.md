@@ -1,4 +1,4 @@
-# BackEnd Assignment
+# 사용자 정보 등록, 조회 API
 ![NPM](https://img.shields.io/badge/npm-red?style=flat&logo=npm&logoColor=white)
 ![Typescript](https://img.shields.io/badge/Typescript-3178C6?style=flat&logo=TypeScript&logoColor=white)
 ![AWS Lambda](https://img.shields.io/badge/Aws_Lambda-orange?style=flat&logo=awslambda&logoColor=white)
